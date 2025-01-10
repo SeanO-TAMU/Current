@@ -16,13 +16,13 @@ class Tilemap:
             self.tilemap[str(2 + i) + ';3'] = {'type': 'circuit', 'variant': 0, 'pos': (2 + i, 3)}
             self.tilemap[str(2 + i) + ';2'] = {'type': 'wall', 'variant': 0, 'pos': (2 + i, 2)}
 
-    def render(self, surf):
+    def render(self, surf, offset=(0,0)):
         for loc in self.tilemap:
             tile = self.tilemap[loc]
-            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size))
+            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
 
         for tile in self.offgrid_tiles:
-            surf.blit(self.game.assets[tile['type']][tile['variant']], tile['pos'])
+            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
 
     def tiles_around(self, pos):
         tiles = []

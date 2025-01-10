@@ -20,35 +20,34 @@ class Game:
             'player' : load_image('entities/player/00_orb1.png'),
             'circuit' : load_images('tiles/circuits'),
             'wall' : load_images('tiles/walls'),
+            'background' : load_image('background.png')
         }
 
-        self.player = PhysicsEntity(self, 'player', (50,50), (32,32))
+        self.player = PhysicsEntity(self, 'player', (120,200), (32,32))
 
         self.scroll = [0, 0]
 
-        self.img = self.assets['player']
-
-        # self.img = pygame.image.load('data/images/entities/player/00_orb1.png')
-
-        self.img_pos = [250,200]
-
         self.tilemap = Tilemap(self, tile_size=64)
+
+        self.scroll = [0, 0] #cameras location
         
         pygame.init()
 
     def run(self):
         while True:
-            self.screen.fill((0, 0, 0))
+            # self.screen.fill((0, 0, 0))
 
-            self.tilemap.render(self.screen)
+            self.screen.blit(self.assets['background'], (0,0))
 
-            # self.img_pos[0] += (self.movement[1] - self.movement[0]) * 3
-            # self.img_pos[1] += (self.movement[3] - self.movement[2]) * 3
-            # self.screen.blit(self.img, self.img_pos)
+            self.scroll[0] += (self.player.rect().centerx - self.screen.get_width() / 2 - self.scroll[0]) / 8
+            self.scroll[1] += (self.player.rect().centery - self.screen.get_height() / 2 - self.scroll[1]) / 8
+            render_scroll = (int(self.scroll[0]), int(self.scroll[1])) #converts self.scroll to integers
+
+            self.tilemap.render(self.screen, offset = render_scroll) 
 
             self.player.update(self.tilemap, ((self.movement[1] - self.movement[0]) * 2, (self.movement[3] - self.movement[2]) * 2))
 
-            self.player.render(self.screen)
+            self.player.render(self.screen, offset = render_scroll)
 
             # print(self.tilemap.physics_rects_around(self.player.pos)) # prints out nearby tiles
 
