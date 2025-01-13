@@ -20,7 +20,9 @@ AUTOTILE_CIRC_MAP = {
     tuple(sorted([(1,0), (0,-1)])): 5,
     tuple(sorted([(-1,0), (1,0), (0,-1)])): 6,
     tuple(sorted([(-1,0), (1,0), (0,1)])): 7,
-    tuple(sorted([(-1,0), (1,0), (0,-1), (0,1)])): 8,
+    tuple(sorted([(-1,0), (0,-1), (0,1)])): 8,
+    tuple(sorted([(1,0), (0,-1), (0,1)])): 9,
+    tuple(sorted([(-1,0), (1,0), (0,-1), (0,1)])): 10,
 }
 
 AUTOTILE_WALL_MAP = {}
