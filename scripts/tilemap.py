@@ -25,7 +25,44 @@ AUTOTILE_CIRC_MAP = {
     tuple(sorted([(-1,0), (1,0), (0,-1), (0,1)])): 10,
 }
 
-AUTOTILE_WALL_MAP = {}
+AUTOTILE_WALL_MAP = {
+    tuple(sorted([(0,1)])): 0,
+    tuple(sorted([(0,1), (1,1)])): 0,
+    tuple(sorted([(0,1), (-1,1)])): 0,
+    tuple(sorted([(0,1), (-1,1), (1,1)])): 0,
+    tuple(sorted([(0,-1)])): 1,
+    tuple(sorted([(0,-1), (1,-1)])): 1,
+    tuple(sorted([(0,-1), (-1,-1)])): 1,
+    tuple(sorted([(0,-1), (1,-1), (-1,-1)])): 1,
+    tuple(sorted([(-1,0)])): 2,
+    tuple(sorted([(-1,0), (-1,1)])): 2,
+    tuple(sorted([(-1,0), (-1,-1)])): 2,
+    tuple(sorted([(-1,0), (-1,-1), (-1,1)])): 2,
+    tuple(sorted([(1,0)])): 3,
+    tuple(sorted([(1,0), (1,1)])): 3,
+    tuple(sorted([(1,0), (1,-1)])): 3,
+    tuple(sorted([(1,0), (1,-1), (1,1)])): 3,
+    tuple(sorted([(0,1), (1,0), (1,1)])): 4,
+    tuple(sorted([(0,1), (1,0), (1,1), (1,-1)])): 4,
+    tuple(sorted([(0,1), (1,0), (1,1), (-1,1)])): 4,
+    tuple(sorted([(0,1), (1,0), (1,1), (1, -1), (-1,1)])): 4,
+    tuple(sorted([(0,1), (-1,0), (-1,1)])): 5,
+    tuple(sorted([(0,1), (-1,0), (-1,1), (-1,-1)])): 5,
+    tuple(sorted([(0,1), (-1,0), (-1,1), (1,1)])): 5,
+    tuple(sorted([(0,1), (-1,0), (-1,1), (-1, -1), (1,1)])): 5,
+    tuple(sorted([(0,-1), (1,0), (1,-1)])): 6,
+    tuple(sorted([(0,-1), (1,0), (1,-1), (1, 1)])): 6,
+    tuple(sorted([(0,-1), (1,0), (1,-1), (-1,-1)])): 6,
+    tuple(sorted([(0,-1), (1,0), (1,-1), (1, 1), (-1,-1)])): 6,
+    tuple(sorted([(0,-1), (-1,0), (-1,-1)])): 7,
+    tuple(sorted([(0,-1), (-1,0), (-1,-1), (1,-1)])): 7,
+    tuple(sorted([(0,-1), (-1,0), (-1,-1), (-1,1)])): 7,
+    tuple(sorted([(0,-1), (-1,0), (-1,-1), (1, -1), (-1,1)])): 7,
+    tuple(sorted([(1,-1)])): 8,
+    tuple(sorted([(-1,-1)])): 9,
+    tuple(sorted([(1,1)])): 10,
+    tuple(sorted([(-1,1)])): 11,
+}
 
 class Tilemap:
     def __init__(self, game, tile_size=64):
@@ -81,13 +118,16 @@ class Tilemap:
             tile = self.tilemap[loc]
             neighbors_circ = set()
             neighbors_wall = set()
+            for shift in [(1,0), (-1,0), (0,-1), (0,1), (1,1), (1,-1), (-1,1), (-1,-1)]:
+                check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
+                if check_loc in self.tilemap:
+                    if self.tilemap[check_loc]['type'] == 'circuit':
+                        neighbors_wall.add(shift)
             for shift in [(1,0), (-1,0), (0,-1), (0,1)]:
                 check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
                 if check_loc in self.tilemap:
                     if self.tilemap[check_loc]['type'] == 'circuit':
                         neighbors_circ.add(shift)
-                    if self.tilemap[check_loc]['type'] == 'wall':
-                        neighbors_wall.add(shift)
             neighbors_circ = tuple(sorted(neighbors_circ))
             neighbors_wall = tuple(sorted(neighbors_wall))
             if tile['type'] == 'circuit' and (neighbors_circ in AUTOTILE_CIRC_MAP):

@@ -60,8 +60,8 @@ class Editor:
         while True:
             self.screen.fill((0,0,0))
 
-            self.scroll[0] += (self.movement[1] - self.movement[0]) * 3
-            self.scroll[1] += (self.movement[3] - self.movement[2]) * 3
+            self.scroll[0] += (self.movement[1] - self.movement[0]) * 7
+            self.scroll[1] += (self.movement[3] - self.movement[2]) * 7
             render_scroll = (int(self.scroll[0]), int(self.scroll[1])) #rounds up to stop the jittering that happens when using floats instead of ints
 
             self.tilemap.render(self.screen, offset=render_scroll)
