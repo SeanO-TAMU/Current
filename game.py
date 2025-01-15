@@ -25,13 +25,17 @@ class Game:
             'end' : load_images('tiles/end'),
         }
 
-        self.player = PhysicsEntity(self, 'player', (120,200), (32,32))
-
         self.scroll = [0, 0]
 
         self.tilemap = Tilemap(self, tile_size=64)
 
         self.tilemap.load('map.json')
+
+        #should be around 100, 120
+        print(self.tilemap.find_start())
+
+
+        self.player = PhysicsEntity(self, 'player', self.tilemap.find_start(), (32,32))
 
         self.scroll = [0, 0] #cameras location
         
@@ -39,9 +43,9 @@ class Game:
 
     def run(self):
         while True:
-            # self.screen.fill((0, 0, 0))
+            self.screen.fill((0, 0, 0))
 
-            self.screen.blit(self.assets['background'], (0,0))
+            # self.screen.blit(self.assets['background'], (0,0))
 
             self.scroll[0] += (self.player.rect().centerx - self.screen.get_width() / 2 - self.scroll[0]) / 8
             self.scroll[1] += (self.player.rect().centery - self.screen.get_height() / 2 - self.scroll[1]) / 8

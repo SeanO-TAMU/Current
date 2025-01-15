@@ -92,6 +92,16 @@ class Tilemap:
                 tiles.append(self.tilemap[check_loc])
         return tiles
     
+    def find_start(self):
+        start_pos = [0,0]
+
+        for loc in self.tilemap:
+            if self.tilemap[loc]['type'] == 'start':
+                start_pos[0] = self.tilemap[loc]['pos'][0] * 64 + 16
+                start_pos[1] = self.tilemap[loc]['pos'][1] * 64 + 16
+
+        return (start_pos[0], start_pos[1])
+    
     def physics_rects_around(self, pos):
         rects = []
         for tile in self.tiles_around(pos):
