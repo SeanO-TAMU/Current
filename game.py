@@ -20,7 +20,9 @@ class Game:
             'player' : load_image('entities/player/00_orb1.png'),
             'circuit' : load_images('tiles/circuits'),
             'wall' : load_images('tiles/walls'),
-            'background' : load_image('background.png')
+            'background' : load_image('background.png'),
+            'start' : load_images('tiles/start'),
+            'end' : load_images('tiles/end'),
         }
 
         self.player = PhysicsEntity(self, 'player', (120,200), (32,32))

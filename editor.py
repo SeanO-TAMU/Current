@@ -26,6 +26,8 @@ class Editor:
         self.assets = { #creates an assets dictionary
             'circuit': load_images('tiles/circuits'),
             'wall': load_images('tiles/walls'),
+            'start' : load_images('tiles/start'),
+            'end' : load_images('tiles/end'),
         }
 
         self.tilemap = Tilemap(self, tile_size=64) #initilize instance of Tilemap with tile size of 16 pixels
