@@ -32,11 +32,14 @@ class Editor:
 
         self.tilemap = Tilemap(self, tile_size=64) #initilize instance of Tilemap with tile size of 16 pixels
 
+        self.start = 0
+
         try:
             self.tilemap.load('map.json')
         except FileNotFoundError:
             pass
-            
+        
+        
 
         self.scroll = [0, 0] #camera starting position
 
