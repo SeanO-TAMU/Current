@@ -9,11 +9,11 @@ AUTOTILE_TYPES = {'circuit', 'wall'}
 
 AUTOTILE_CIRC_MAP = {
     tuple(sorted([(1,0), (-1,0)])): 0,
-    tuple(sorted([(1,0)])): 0,
-    tuple(sorted([(-1,0)])): 0,
+    tuple(sorted([(1,0)])): 13,
+    tuple(sorted([(-1,0)])): 11,
     tuple(sorted([(0,1), (0,-1)])): 1,
-    tuple(sorted([(0,1)])): 1,
-    tuple(sorted([(0,-1)])): 1,
+    tuple(sorted([(0,1)])): 14,
+    tuple(sorted([(0,-1)])): 12,
     tuple(sorted([(-1,0), (0,-1)])): 2,
     tuple(sorted([(-1,0), (0,1)])): 3,
     tuple(sorted([(1,0), (0,1)])): 4,
@@ -100,6 +100,18 @@ class Tilemap:
                 start_pos[0] = self.tilemap[loc]['pos'][0] * 64 + 16
                 start_pos[1] = self.tilemap[loc]['pos'][1] * 64 + 16
 
+        return start_pos
+    
+    def at_end(self):#returns true/end_rect once player collides with end_rect,
+        end_rect
+        for tile in self.tiles_around(self.game.player.pos):
+            if tile['type'] in PHYSICS_TILES:
+                end_rect = (pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
+        if self.game.player.rect.colliderect(end_rect):
+            return end_rect
+        else:
+            return False
+
     def num_starts(self):
         start_int = 0
         for loc in self.tilemap:
@@ -141,12 +153,12 @@ class Tilemap:
             for shift in [(1,0), (-1,0), (0,-1), (0,1), (1,1), (1,-1), (-1,1), (-1,-1)]:
                 check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
                 if check_loc in self.tilemap:
-                    if self.tilemap[check_loc]['type'] == 'circuit':
+                    if self.tilemap[check_loc]['type'] == 'circuit' or self.tilemap[check_loc]['type'] == 'start' or self.tilemap[check_loc]['type'] == 'end':
                         neighbors_wall.add(shift)
             for shift in [(1,0), (-1,0), (0,-1), (0,1)]:
                 check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
                 if check_loc in self.tilemap:
-                    if self.tilemap[check_loc]['type'] == 'circuit':
+                    if self.tilemap[check_loc]['type'] == 'circuit' or self.tilemap[check_loc]['type'] == 'start' or self.tilemap[check_loc]['type'] == 'end':
                         neighbors_circ.add(shift)
             neighbors_circ = tuple(sorted(neighbors_circ))
             neighbors_wall = tuple(sorted(neighbors_wall))

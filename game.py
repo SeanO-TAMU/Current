@@ -12,7 +12,7 @@ class Game:
         pygame.display.set_caption('Current')
         self.screen = pygame.display.set_mode((800, 600))
         # self.display = pygame.Surface((320, 240)) #generates an empty surface/image that is all black, render on this smaller display resolution and scale it up to the screen resolution
-        
+
         self.clock = pygame.time.Clock()
         self.movement = [False, False, False, False] #index 0 is left, index 1 is right, index 2 is up, index 3 is down
 
@@ -38,7 +38,7 @@ class Game:
         self.player = PhysicsEntity(self, 'player', self.tilemap.find_start(), (32,32))
 
         self.scroll = [0, 0] #cameras location
-        
+
         pygame.init()
 
     def run(self):
@@ -51,7 +51,7 @@ class Game:
             self.scroll[1] += (self.player.rect().centery - self.screen.get_height() / 2 - self.scroll[1]) / 8
             render_scroll = (int(self.scroll[0]), int(self.scroll[1])) #converts self.scroll to integers
 
-            self.tilemap.render(self.screen, offset = render_scroll) 
+            self.tilemap.render(self.screen, offset = render_scroll)
 
             self.player.update(self.tilemap, ((self.movement[1] - self.movement[0]) * 2, (self.movement[3] - self.movement[2]) * 2))
 
