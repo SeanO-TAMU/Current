@@ -86,7 +86,7 @@ class Editor:
             if self.left_clicking and self.ongrid:
 
                 #alter this to allow for different color circuits/add another attribute to all tiles
-                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos} #essentaily add a style string with an int value of 0 for regular
+                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos, 'style': 0} #essentaily add a style string with an int value of 0 for regular
 
             if self.right_clicking:
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
@@ -112,7 +112,7 @@ class Editor:
                         if not self.ongrid:
 
                             #alter this to allow for different color circuits/add another attribute to all tiles
-                            self.tilemap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1])}) #this adds the it to offgrid just once, self.scroll gets added in order to make sure it is added correctly to the world no matter where youo have the camera moved
+                            self.tilemap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1]), 'style': 0}) #this adds the it to offgrid just once, self.scroll gets added in order to make sure it is added correctly to the world no matter where youo have the camera moved
 
 
 
@@ -151,7 +151,7 @@ class Editor:
                         self.shift = True
                     if event.key == pygame.K_g: #whether or not tiles should be placed ongrid
                         self.ongrid = not self.ongrid
-                    if event.key == pygame.K_o:
+                    if event.key == pygame.K_o: #press o to save
                         self.tilemap.save('map.json')
                     if event.key == pygame.K_t: #press t to autotile everything in map/grid
                         self.tilemap.autotile()
