@@ -25,10 +25,16 @@ class Editor:
 
         self.assets = { #creates an assets dictionary
             'circuit': load_images('tiles/circuits'),
+            'circuitb' : load_images('tiles/circuits_blue'),
+            'circuitr' : load_images('tiles/circuits_red'),
             'wall': load_images('tiles/walls'),
             'start' : load_images('tiles/start'),
             'end' : load_images('tiles/end'),
         }
+
+        #make a styles dictionary with the string name as the key 
+
+        self.style_values = {'circuit': 0, 'circuitb': 1, 'circuitr': 2, 'wall': 0, 'end': 0, 'start': 0}
 
         self.tilemap = Tilemap(self, tile_size=64) #initilize instance of Tilemap with tile size of 16 pixels
 
@@ -86,7 +92,7 @@ class Editor:
             if self.left_clicking and self.ongrid:
 
                 #alter this to allow for different color circuits/add another attribute to all tiles
-                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos, 'style': 0} #essentaily add a style string with an int value of 0 for regular
+                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos, 'style': self.style_values[self.tile_list[self.tile_group]]} #essentaily add a style string with an int value of 0 for regular
 
             if self.right_clicking:
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
@@ -112,7 +118,7 @@ class Editor:
                         if not self.ongrid:
 
                             #alter this to allow for different color circuits/add another attribute to all tiles
-                            self.tilemap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1]), 'style': 0}) #this adds the it to offgrid just once, self.scroll gets added in order to make sure it is added correctly to the world no matter where youo have the camera moved
+                            self.tilemap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1]), 'style': self.style_values[self.tile_list[self.tile_group]]}) #this adds the it to offgrid just once, self.scroll gets added in order to make sure it is added correctly to the world no matter where youo have the camera moved
 
 
 

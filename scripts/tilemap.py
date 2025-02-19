@@ -161,16 +161,16 @@ class Tilemap:
             for shift in [(1,0), (-1,0), (0,-1), (0,1), (1,1), (1,-1), (-1,1), (-1,-1)]:
                 check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
                 if check_loc in self.tilemap:
-                    if self.tilemap[check_loc]['type'] == 'circuit' or self.tilemap[check_loc]['type'] == 'start' or self.tilemap[check_loc]['type'] == 'end':
+                    if self.tilemap[check_loc]['type'] == 'circuit' or self.tilemap[check_loc]['type'] == 'circuitb' or self.tilemap[check_loc]['type'] == 'circuitr' or self.tilemap[check_loc]['type'] == 'start' or self.tilemap[check_loc]['type'] == 'end':
                         neighbors_wall.add(shift)
             for shift in [(1,0), (-1,0), (0,-1), (0,1)]:
                 check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
                 if check_loc in self.tilemap:
-                    if self.tilemap[check_loc]['type'] == 'circuit' or self.tilemap[check_loc]['type'] == 'start' or self.tilemap[check_loc]['type'] == 'end':
+                    if self.tilemap[check_loc]['type'] == 'circuit' or  self.tilemap[check_loc]['type'] == 'circuitb' or  self.tilemap[check_loc]['type'] == 'circuitr' or self.tilemap[check_loc]['type'] == 'start' or self.tilemap[check_loc]['type'] == 'end':
                         neighbors_circ.add(shift)
             neighbors_circ = tuple(sorted(neighbors_circ))
             neighbors_wall = tuple(sorted(neighbors_wall))
-            if tile['type'] == 'circuit' and (neighbors_circ in AUTOTILE_CIRC_MAP):
+            if (tile['type'] == 'circuit' or tile['type'] == 'circuitb' or tile['type'] == 'circuitr') and (neighbors_circ in AUTOTILE_CIRC_MAP):
                 tile['variant'] = AUTOTILE_CIRC_MAP[neighbors_circ]
             if tile['type'] == 'wall' and (neighbors_wall in AUTOTILE_WALL_MAP):
                 tile['variant'] = AUTOTILE_WALL_MAP[neighbors_wall]
