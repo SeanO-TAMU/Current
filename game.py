@@ -19,8 +19,8 @@ class Game:
         self.assets = {
             'player' : load_player('entities/player/00_orb1.png'),
             'circuit' : load_images('tiles/circuits'),
-            'circuitb' : load_images('tiles/curcuits_blue'),
-            'circuitr' : load_images('tiles/curcuits_red'),
+            'circuitb' : load_images('tiles/circuits_blue'),
+            'circuitr' : load_images('tiles/circuits_red'),
             'wall' : load_images('tiles/walls'),
             'background' : load_image('background.png'),
             'start' : load_images('tiles/start'),

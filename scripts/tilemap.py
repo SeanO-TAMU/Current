@@ -7,7 +7,7 @@ PHYSICS_TILES = {'wall'}
 
 AUTOTILE_TYPES = {'circuit', 'wall'}
 
-FLOOR_TILES = {'circuit', 'circuitb', 'circuitr'}
+FLOOR_TILES = {'circuit', 'circuitb', 'circuitr', 'start', 'end'}
 
 AUTOTILE_CIRC_MAP = {
     tuple(sorted([(1,0), (-1,0)])): 0,
@@ -125,17 +125,17 @@ class Tilemap:
 
         return start_int
     
-    def physics_rects_around(self, pos):
-        rects = []
-        for tile in self.tiles_around(pos):
-            if tile['type'] in FLOOR_TILES:
-                rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
-        return rects
-    
-    def floor_rects_around(self, pos):
+    def physics_rects_around(self, pos): #returns location of nearby walls
         rects = []
         for tile in self.tiles_around(pos):
             if tile['type'] in PHYSICS_TILES:
+                rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
+        return rects
+    
+    def floor_rects_around(self, pos): #returns location of nearby floor tiles
+        rects = []
+        for tile in self.tiles_around(pos):
+            if tile['type'] in FLOOR_TILES:
                 rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
     
