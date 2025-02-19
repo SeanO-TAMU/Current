@@ -2,7 +2,7 @@ import pygame
 import sys
 import os
 
-from scripts.utils import load_image, load_images
+from scripts.utils import load_image, load_images, load_player
 from scripts.entities import PhysicsEntity
 from scripts.tilemap import Tilemap
 
@@ -17,8 +17,10 @@ class Game:
         self.movement = [False, False, False, False] #index 0 is left, index 1 is right, index 2 is up, index 3 is down
 
         self.assets = {
-            'player' : load_image('entities/player/00_orb1.png'),
+            'player' : load_player('entities/player/00_orb1.png'),
             'circuit' : load_images('tiles/circuits'),
+            'circuitb' : load_images('tiles/curcuits_blue'),
+            'circuitr' : load_images('tiles/curcuits_red'),
             'wall' : load_images('tiles/walls'),
             'background' : load_image('background.png'),
             'start' : load_images('tiles/start'),
@@ -63,25 +65,25 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.movement[0] = True
-                    if event.key == pygame.K_RIGHT:
-                        self.movement[1] = True
-                    if event.key == pygame.K_UP:
-                        self.movement[2] = True
-                    if event.key == pygame.K_DOWN:
-                        self.movement[3] = True
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_RIGHT:
-                        self.movement[1] = False
-                    if event.key == pygame.K_LEFT:
-                        self.movement[0] = False
-                    if event.key == pygame.K_UP:
-                        self.movement[2] = False
-                    if event.key == pygame.K_DOWN:
-                        self.movement[3] = False
+                if self.player.move:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                            self.movement[0] = True
+                        if event.key == pygame.K_RIGHT:
+                            self.movement[1] = True
+                        if event.key == pygame.K_UP:
+                            self.movement[2] = True
+                        if event.key == pygame.K_DOWN:
+                            self.movement[3] = True
+                    if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_RIGHT:
+                            self.movement[1] = False
+                        if event.key == pygame.K_LEFT:
+                            self.movement[0] = False
+                        if event.key == pygame.K_UP:
+                            self.movement[2] = False
+                        if event.key == pygame.K_DOWN:
+                            self.movement[3] = False
 
             # self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0,0)) #renders display onto screen, also uses that function to scale
 

@@ -7,6 +7,8 @@ PHYSICS_TILES = {'wall'}
 
 AUTOTILE_TYPES = {'circuit', 'wall'}
 
+FLOOR_TILES = {'circuit', 'circuitb', 'circuitr'}
+
 AUTOTILE_CIRC_MAP = {
     tuple(sorted([(1,0), (-1,0)])): 0,
     tuple(sorted([(1,0)])): 13,
@@ -83,6 +85,11 @@ class Tilemap:
         for tile in self.offgrid_tiles:
             surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
 
+    def mask(self, pos):
+        for tiles in self.tilemap.tiles_around(pos):
+            pass #use the tiles_around function to only mask the tiles near player
+
+
     def tiles_around(self, pos):
         tiles = []
         tile_loc = (int(pos[0] // self.tile_size), int(pos[1] // self.tile_size))
@@ -102,15 +109,13 @@ class Tilemap:
 
         return start_pos
     
-    def at_end(self):#returns true/end_rect once player collides with end_rect,
-        end_rect
-        for tile in self.tiles_around(self.game.player.pos):
-            if tile['type'] in PHYSICS_TILES:
-                end_rect = (pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
-        if self.game.player.rect.colliderect(end_rect):
-            return end_rect
-        else:
-            return False
+        
+    def at_end(self, pos):#returns true/end_rect once player collides with end_rect,
+        end_rect = []
+        for tile in self.tiles_around(pos):
+            if tile['type'] == 'end':
+                end_rect.append((pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size)))
+        return end_rect
 
     def num_starts(self):
         start_int = 0
@@ -119,10 +124,6 @@ class Tilemap:
                 start_int += 1
 
         return start_int
-
-
-
-        return (start_pos[0], start_pos[1])
     
     def physics_rects_around(self, pos):
         rects = []
