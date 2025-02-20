@@ -25,6 +25,54 @@ class PhysicsEntity:
         # mask_surface = mask.to_surface()
         # surf.blit(mask_surface, (self.pos[0] - offset[0], self.pos[1] - offset[1]))
 
+
+
+    #can use rect collisions for floor tiles since we don't have to worry about the diagonals, or not?
+    #set direction of initial contact as the direction we are currently moving so I guess we just need to figure that out
+    #when exiting use framemovement to detect when a tile has been exited in the proper direction if so change the tile type
+
+    def alter_floor_blue(self, tilemap, movement=(0,0)): #function that changes floor tiles
+
+        frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1]) #movement function
+        entity_mask = self.mask()
+
+        for rect in tilemap.floor_rects_around(self.pos): #function that changes floor tiles
+
+            tile_surface = pygame.Surface(rect.size)
+            tile_surface.fill((255, 255, 255))
+            wall_mask = pygame.mask.from_surface(tile_surface) # makes a mask of the wall
+            tileSize = tilemap.tile_size
+
+            offset = (rect.x - self.pos[0], rect.y - self.pos[1])
+            overlap_point = entity_mask.overlap(wall_mask, offset)
+            if(overlap_point):
+                # print("overlap: ", overlap_point)
+                tile_loc = (int((self.pos[0] + overlap_point[0]) // tileSize), int((self.pos[1] + overlap_point[1]) // tileSize))
+                check_loc = str(tile_loc[0]) + ';' + str(tile_loc[1]) #location string of tile
+                # print("location: ", check_loc)
+                tile = tilemap.get_tile(check_loc)
+                if tile['style'] == 0 and tile['type'] == 'end':
+                    tile['type'] = 'endb'
+                    tile['style'] = 1
+                elif tile['style'] == 0 and tile['type'] != 'start':
+                    if frame_movement[0] > 0:             
+                        tile['type'] = 'circuitb'
+                        tile['style'] = 1
+                        tile['side'] = 'right' 
+                    if frame_movement[0] < 0:
+                        tile['type'] = 'circuitb'
+                        tile['style'] = 1
+                        tile['side'] = 'left'                  
+                    if frame_movement[1] > 0:
+                        tile['type'] = 'circuitb'
+                        tile['style'] = 1
+                        tile['side'] = 'down'                   
+                    if frame_movement[1] < 0:
+                        tile['type'] = 'circuitb'
+                        tile['style'] = 1
+                        tile['side'] = 'up'
+
+
     def update(self, tilemap, movement=(0,0)): #function for calculating the movement of the player
         self.collisions = {'up': False, 'down': False, 'left': False, 'right': False}
 
@@ -61,10 +109,10 @@ class PhysicsEntity:
 
                 if(overlap_point): #do some modulus check to move by 1 pixel, also add back determining direction
                     self.pos[1] -= frame_movement[1]
-                    
-           
-           
-            # would need to remove lover portion of this function if we add enemy entities since the following is just for the player
+
+            self.alter_floor_blue(tilemap, movement)
+
+            # would need to remove lower portion of this function if we add enemy entities since the following is just for the player
             for rect in tilemap.at_end(self.pos):
                 if entity_rect.colliderect(rect):
                     self.ending(rect)

@@ -25,6 +25,7 @@ class Game:
             'background' : load_image('background.png'),
             'start' : load_images('tiles/start'),
             'end' : load_images('tiles/end'),
+            'endb' : load_images('tiles/end_blue'),
         }
 
         self.scroll = [0, 0]

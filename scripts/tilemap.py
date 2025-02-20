@@ -73,9 +73,8 @@ class Tilemap:
         self.tilemap = {} #pos in the lookup for this will be a string
         self.offgrid_tiles = [] #coordinates need to be in pixels for this one
 
-        # for i in range(4):
-        #     self.tilemap[str(2 + i) + ';3'] = {'type': 'circuit', 'variant': 0, 'pos': (2 + i, 3)}
-        #     self.tilemap[str(2 + i) + ';2'] = {'type': 'wall', 'variant': 0, 'pos': (2 + i, 2)}
+    def get_tile(self, loc):
+        return self.tilemap.get(loc, None)
 
     def render(self, surf, offset=(0,0)):
         for loc in self.tilemap:
@@ -113,7 +112,7 @@ class Tilemap:
     def at_end(self, pos):#returns true/end_rect once player collides with end_rect,
         end_rect = []
         for tile in self.tiles_around(pos):
-            if tile['type'] == 'end':
+            if tile['type'] == 'end' or tile['type'] == 'endb':
                 end_rect.append((pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size)))
         return end_rect
 
